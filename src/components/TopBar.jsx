@@ -9,8 +9,7 @@ export default function TopBar({ currentView, navigateTo }) {
         className="brand" 
         onClick={() => navigateTo('welcome')}
         aria-label="WE Hack home"
-      >
-        <img className="brand-logo" src="/brand/wehack-logo.svg" alt="WE Hack Logo" />
+        <img className="brand-logo" src="/brand/wehack-logo.webp" alt="WE Hack Logo" />
         <span className="brand-text">
           <strong>WE HACK 5.0</strong>
           <small>TEAMMATE MATCH</small>
