@@ -46,26 +46,15 @@ export default function SetupForm({ onComplete, onBack }) {
           </label>
         </div>
 
-        <div className="field-row">
-          <label>
-            <span>Your gender</span>
-            <select defaultValue="Woman">
-              <option>Woman</option>
-              <option>Man</option>
-              <option>Non-binary</option>
-              <option>Prefer not to say</option>
-            </select>
-          </label>
-          <label>
-            <span>Current team size</span>
-            <select defaultValue="Just me">
-              <option>Just me</option>
-              <option>2 people</option>
-              <option>3 people</option>
-              <option>4 people</option>
-            </select>
-          </label>
-        </div>
+        <label className="wide-field">
+          <span>Current team size</span>
+          <select defaultValue="Just me">
+            <option>Just me</option>
+            <option>2 people</option>
+            <option>3 people</option>
+            <option>4 people</option>
+          </select>
+        </label>
 
         <fieldset>
           <legend>

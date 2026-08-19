@@ -6,7 +6,6 @@ import ChatPanel from './ChatPanel'
 
 export default function DiscoverView({ onExit, showToast }) {
   const [mode, setMode] = useState('discover')
-  const [genderFilter, setGenderFilter] = useState('All')
   const [currentIndex, setCurrentIndex] = useState(0)
   
   // State for requests / chat
@@ -18,11 +17,8 @@ export default function DiscoverView({ onExit, showToast }) {
   const [swipeOffset, setSwipeOffset] = useState(0)
   const swipeStartRef = useRef(null)
 
-  // Filter profiles
-  const filteredProfiles = useMemo(() => {
-    if (genderFilter === 'All') return profiles
-    return profiles.filter(p => p.gender === genderFilter)
-  }, [genderFilter])
+  // No filter applied for now
+  const filteredProfiles = profiles
 
   // Get current and next profile (looping)
   const activeProfile = filteredProfiles[currentIndex % filteredProfiles.length]
@@ -124,23 +120,7 @@ export default function DiscoverView({ onExit, showToast }) {
           </button>
         </div>
 
-        {mode === 'discover' ? (
-          <label className="gender-filter">
-            <span>GENDER FILTER</span>
-            <select 
-              value={genderFilter} 
-              onChange={e => {
-                setGenderFilter(e.target.value)
-                setCurrentIndex(0)
-              }}
-            >
-              <option value="All">All genders</option>
-              <option value="Woman">Women</option>
-              <option value="Man">Men</option>
-              <option value="Non-binary">Non-binary</option>
-            </select>
-          </label>
-        ) : (
+        {mode !== 'discover' && (
           <small>{incomingRequests.length} PENDING</small>
         )}
       </div>
@@ -206,7 +186,7 @@ export default function DiscoverView({ onExit, showToast }) {
                     <div className="name-line">
                       <div>
                         <h2>{activeProfile.name}</h2>
-                        <p>{activeProfile.year} · {activeProfile.branch} · {activeProfile.gender}</p>
+                        <p>{activeProfile.year} · {activeProfile.branch}</p>
                       </div>
                       <span className="available">AVAILABLE</span>
                     </div>
@@ -251,7 +231,7 @@ export default function DiscoverView({ onExit, showToast }) {
               </>
             ) : (
               <div style={{ padding: '40px', color: 'var(--paper-dim)' }}>
-                No profiles found for this gender filter.
+                No profiles found.
               </div>
             )}
           </div>
@@ -294,7 +274,7 @@ export default function DiscoverView({ onExit, showToast }) {
                     <AnimalAvatar animal={req.animal} label={req.creature} />
                   </div>
                   <div className="request-details">
-                    <p>{req.year} · {req.branch} · {req.gender}</p>
+                    <p>{req.year} · {req.branch}</p>
                     <h2>{req.name}</h2>
                     <h3>{req.role}</h3>
                     <div className="request-skills">
@@ -311,7 +291,6 @@ export default function DiscoverView({ onExit, showToast }) {
                       <small>COMPLEMENT</small>
                     </span>
                     <button onClick={() => {
-                      setGenderFilter('All')
                       setMode('discover')
                       setCurrentIndex(profiles.findIndex(p => p.name === req.name))
                     }}>

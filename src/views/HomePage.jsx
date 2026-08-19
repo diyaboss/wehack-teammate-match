@@ -140,7 +140,7 @@ export default function HomePage({ onStart }) {
             <span>03</span> TEAM RULES
           </div>
           <h2>Build a valid team.</h2>
-          <p>Use the gender filter when your team still needs to meet WE Hack’s composition rules. Eligibility is rechecked before a team is confirmed.</p>
+          <p>Review the full list of rules on the hackathon guidelines page before finalizing your team.</p>
         </div>
         <div className="rule-numbers reveal">
           <div>
