@@ -144,12 +144,12 @@ export default function HomePage({ onStart }) {
         </div>
         <div className="rule-numbers reveal">
           <div>
-            <strong>3</strong>
-            <p>people<br /><b>minimum 1 woman</b></p>
+            <strong>2–3</strong>
+            <p>people<br /><b>per team</b></p>
           </div>
           <div>
             <strong>4–5</strong>
-            <p>people<br /><b>minimum 2 women</b></p>
+            <p>people<br /><b>maximum</b></p>
           </div>
         </div>
       </section>

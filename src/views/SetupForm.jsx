@@ -3,10 +3,18 @@ import { allSkills } from '../data/profiles'
 
 export default function SetupForm({ onComplete, onBack }) {
   const [selectedSkills, setSelectedSkills] = useState(['AI / ML', 'Cybersecurity'])
-  const [lookingFor, setLookingFor] = useState('Frontend, UI design, backend deployment')
+  const [lookingFor, setLookingFor] = useState(['React', 'UI / UX'])
 
   const toggleSkill = (skill) => {
     setSelectedSkills(prev => 
+      prev.includes(skill) 
+        ? prev.filter(s => s !== skill)
+        : [...prev, skill]
+    )
+  }
+
+  const toggleLookingFor = (skill) => {
+    setLookingFor(prev => 
       prev.includes(skill) 
         ? prev.filter(s => s !== skill)
         : [...prev, skill]
@@ -77,15 +85,23 @@ export default function SetupForm({ onComplete, onBack }) {
           </div>
         </fieldset>
 
-        <label className="wide-field">
-          <span>I need teammates who know…</span>
-          <input 
-            type="text" 
-            value={lookingFor}
-            onChange={(e) => setLookingFor(e.target.value)}
-            required 
-          />
-        </label>
+        <fieldset>
+          <legend>
+            I need teammates who know… <small>Pick 2–4</small>
+          </legend>
+          <div className="choice-grid">
+            {allSkills.slice(0, 9).map(skill => (
+              <button 
+                key={skill}
+                type="button" 
+                className={lookingFor.includes(skill) ? 'selected' : ''}
+                onClick={() => toggleLookingFor(skill)}
+              >
+                {skill} <span>{lookingFor.includes(skill) ? '×' : '+'}</span>
+              </button>
+            ))}
+          </div>
+        </fieldset>
 
         <div className="field-row">
           <label>
@@ -105,7 +121,7 @@ export default function SetupForm({ onComplete, onBack }) {
 
         <div className="form-footer">
           <p>
-            <b>Team eligibility:</b> WE Hack’s gender-composition rules are rechecked before a team is confirmed.
+            <b>Team eligibility:</b> Review all hackathon rules before final submission.
           </p>
           <button className="primary-action" type="submit">
             FIND MY PEOPLE <span>→</span>
