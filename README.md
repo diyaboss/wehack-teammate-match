@@ -1,37 +1,37 @@
-# Frequency Cipher
+# WE Hack Teammate Match
 
-A Firebase Hosting-ready puzzle page reconstructed from `fcipher4`.
+A modern, fast, and interactive teammate matching platform for the WE Hack hackathon. Built to help participants form balanced teams by discovering hackers with complementary skills.
 
-## Add the final audio
+## Features
 
-Place the mashup at:
+- **Quick Setup:** Users input their details, strongest skills, and the skills they are looking for in teammates.
+- **Match Discovery:** A swipe-like interface to view potential teammates' profiles.
+- **Team Requests:** Users can send and receive match requests.
+- **Mutual Matches & Chat:** When two hackers accept each other's requests, a mutual match is formed, opening up a chat interface to coordinate.
+- **Fully Responsive:** Optimized for both mobile and desktop.
 
-`firebase-public/audio/reveal.mp3`
+## Tech Stack
 
-The seventh correct blue-star click plays it with `volume = 1`.
+- **Frontend:** React 18
+- **Build Tool:** Vite
+- **Styling:** Custom CSS with a distinct dark-mode brand identity (using CSS variables)
+- **Deployment:** Vercel
 
-## Deploy to Firebase
+## Local Development
 
-1. Copy `.firebaserc.example` to `.firebaserc`.
-2. Replace `YOUR_FIREBASE_PROJECT_ID` with the Firebase project ID.
-3. Run `npx firebase-tools login`.
-4. Run `npx firebase-tools deploy --only hosting`.
+To run the platform locally:
 
-## Puzzle mechanics
+1. Clone this repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-- The visible puzzle is a single PNG.
-- Ctrl+A followed by copy returns the top cipher, all clue lines, and the
-  6,800-letter hidden block in that order.
-- F12, common DevTools shortcuts, and right-click redirect to the black puzzle
-  PNG.
-- All border stars twinkle. The currently valid star twinkles blue.
-- Laptop and desktop screens use a dedicated full-screen 16:9 composition;
-  portrait screens automatically use the portrait composition.
-- The animated star field is fixed 10 pixels from the actual viewport edges,
-  independent of the puzzle image ratio.
-- The valid seven-star path is defined in `firebase-public/app.js`.
+## Production Deployment
 
-Browser security note: anything delivered to a participant's browser can
-ultimately be recovered by a sufficiently determined participant. These
-measures hide the payload from casual DOM inspection; they cannot make
-client-delivered data cryptographically inaccessible.
+This project is configured for seamless deployment on Vercel. 
+Pushing to the `main` branch will automatically trigger a production build.
