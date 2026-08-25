@@ -8,6 +8,7 @@ import DiscoverView from './views/DiscoverView'
 function App() {
   const [currentView, setCurrentView] = useState('welcome')
   const [toastMessage, setToastMessage] = useState('')
+  const [selectedAvatar, setSelectedAvatar] = useState(null)
 
   const navigateTo = (view) => {
     setCurrentView(view)
@@ -21,16 +22,23 @@ function App() {
 
   return (
     <main className="app-shell">
-      <TopBar currentView={currentView} navigateTo={navigateTo} />
-      
+      <TopBar currentView={currentView} navigateTo={navigateTo} selectedAvatar={selectedAvatar} />
+
       {currentView === 'welcome' && <HomePage onStart={() => navigateTo('setup')} />}
-      
-      {currentView === 'setup' && <SetupForm onComplete={() => navigateTo('discover')} onBack={() => navigateTo('welcome')} />}
-      
+
+      {currentView === 'setup' && (
+        <SetupForm
+          selectedAvatar={selectedAvatar}
+          onAvatarChange={setSelectedAvatar}
+          onComplete={() => navigateTo('discover')}
+          onBack={() => navigateTo('welcome')}
+        />
+      )}
+
       {currentView === 'discover' && (
-        <DiscoverView 
-          onExit={() => navigateTo('welcome')} 
-          showToast={showToast} 
+        <DiscoverView
+          onExit={() => navigateTo('welcome')}
+          showToast={showToast}
         />
       )}
 

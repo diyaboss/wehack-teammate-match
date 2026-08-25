@@ -29,14 +29,18 @@ html {
   scroll-behavior: smooth;
 }
 
-html, body {
+html,
+body {
   min-height: 100%;
   color: var(--paper);
   font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font-family: inherit;
   color: inherit;
   background: transparent;
@@ -70,7 +74,10 @@ a {
 }
 
 /* Typography utility classes */
-h1, h2, h3, .display-text {
+h1,
+h2,
+h3,
+.display-text {
   font-family: var(--font-display);
   text-transform: uppercase;
   line-height: 1;
@@ -174,9 +181,17 @@ h1, h2, h3, .display-text {
 }
 
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(220, 255, 145, 0.4); }
-  70% { box-shadow: 0 0 0 6px rgba(220, 255, 145, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(220, 255, 145, 0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 255, 145, 0.4);
+  }
+
+  70% {
+    box-shadow: 0 0 0 6px rgba(220, 255, 145, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 255, 145, 0);
+  }
 }
 
 .profile-chip {
@@ -206,6 +221,11 @@ h1, h2, h3, .display-text {
   place-items: center;
   font-family: var(--font-serif);
   font-weight: 700;
+}
+
+img.profile-avatar-circle {
+  object-fit: cover;
+  padding: 0;
 }
 
 /* Animations */
@@ -270,9 +290,13 @@ h1, h2, h3, .display-text {
 
 /* Responsive Utilities */
 @media (max-width: 768px) {
-  .home-nav, .status-line, .profile-chip b {
+
+  .home-nav,
+  .status-line,
+  .profile-chip b {
     display: none;
   }
+
   .topbar {
     padding: 0 20px;
   }
