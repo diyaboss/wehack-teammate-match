@@ -1,12 +1,14 @@
 import React from 'react'
+import { AVATAR_OPTIONS } from '../data/avatars'
 
-export default function TopBar({ currentView, navigateTo }) {
+export default function TopBar({ currentView, navigateTo, selectedAvatar }) {
   const isHome = currentView === 'welcome'
+  const avatar = AVATAR_OPTIONS.find(a => a.id === selectedAvatar)
 
   return (
     <header className="topbar">
-      <button 
-        className="brand" 
+      <button
+        className="brand"
         onClick={() => navigateTo('welcome')}
         aria-label="WE Hack home"
       >
@@ -35,7 +37,11 @@ export default function TopBar({ currentView, navigateTo }) {
       )}
 
       <button className="profile-chip" onClick={() => navigateTo('setup')}>
-        <span className="profile-avatar-circle">DG</span>
+        {avatar ? (
+          <img className="profile-avatar-circle" src={avatar.src} alt="" />
+        ) : (
+          <span className="profile-avatar-circle">DG</span>
+        )}
         <b>YOUR PROFILE</b>
       </button>
     </header>

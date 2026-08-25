@@ -1,21 +1,22 @@
 import React, { useState } from 'react'
 import { allSkills } from '../data/profiles'
+import AvatarPicker from '../components/AvatarPicker'
 
-export default function SetupForm({ onComplete, onBack }) {
+export default function SetupForm({ onComplete, onBack, selectedAvatar, onAvatarChange }) {
   const [selectedSkills, setSelectedSkills] = useState(['AI / ML', 'Cybersecurity'])
   const [lookingFor, setLookingFor] = useState(['React', 'UI / UX'])
 
   const toggleSkill = (skill) => {
-    setSelectedSkills(prev => 
-      prev.includes(skill) 
+    setSelectedSkills(prev =>
+      prev.includes(skill)
         ? prev.filter(s => s !== skill)
         : [...prev, skill]
     )
   }
 
   const toggleLookingFor = (skill) => {
-    setLookingFor(prev => 
-      prev.includes(skill) 
+    setLookingFor(prev =>
+      prev.includes(skill)
         ? prev.filter(s => s !== skill)
         : [...prev, skill]
     )
@@ -46,6 +47,8 @@ export default function SetupForm({ onComplete, onBack }) {
           </label>
         </div>
 
+        <AvatarPicker selected={selectedAvatar} onSelect={onAvatarChange} />
+
         <label className="wide-field">
           <span>Current team size</span>
           <select defaultValue="Just me">
@@ -62,9 +65,9 @@ export default function SetupForm({ onComplete, onBack }) {
           </legend>
           <div className="choice-grid">
             {allSkills.slice(0, 9).map(skill => (
-              <button 
+              <button
                 key={skill}
-                type="button" 
+                type="button"
                 className={selectedSkills.includes(skill) ? 'selected' : ''}
                 onClick={() => toggleSkill(skill)}
               >
@@ -80,9 +83,9 @@ export default function SetupForm({ onComplete, onBack }) {
           </legend>
           <div className="choice-grid">
             {allSkills.slice(0, 9).map(skill => (
-              <button 
+              <button
                 key={skill}
-                type="button" 
+                type="button"
                 className={lookingFor.includes(skill) ? 'selected' : ''}
                 onClick={() => toggleLookingFor(skill)}
               >
