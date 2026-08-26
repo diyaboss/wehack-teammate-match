@@ -2,29 +2,113 @@ import React, { useState } from 'react'
 import { allSkills } from '../data/profiles'
 import AvatarPicker from '../components/AvatarPicker'
 
-export default function SetupForm({ onComplete, onBack, selectedAvatar, onAvatarChange }) {
-  const [selectedSkills, setSelectedSkills] = useState(['AI / ML', 'Cybersecurity'])
-  const [lookingFor, setLookingFor] = useState(['React', 'UI / UX'])
+const PREDEFINED_SKILLS = allSkills.slice(0, 9)
+
+export default function SetupForm({
+  onComplete,
+  onBack,
+  selectedAvatar,
+  onAvatarChange,
+  initialSelectedSkills,
+  initialLookingFor
+}) {
+  const [selectedSkills, setSelectedSkills] = useState(initialSelectedSkills || ['AI / ML', 'Cybersecurity'])
+  const [lookingFor, setLookingFor] = useState(initialLookingFor || ['React', 'UI / UX'])
+
+  const [showOtherSkill, setShowOtherSkill] = useState(false)
+  const [customSkillInput, setCustomSkillInput] = useState('')
+  const [skillError, setSkillError] = useState('')
+
+  const [showOtherLookingFor, setShowOtherLookingFor] = useState(false)
+  const [customLookingForInput, setCustomLookingForInput] = useState('')
+  const [lookingForError, setLookingForError] = useState('')
 
   const toggleSkill = (skill) => {
-    setSelectedSkills(prev =>
-      prev.includes(skill)
-        ? prev.filter(s => s !== skill)
-        : [...prev, skill]
-    )
+    setSkillError('')
+    if (selectedSkills.includes(skill)) {
+      setSelectedSkills(prev => prev.filter(s => s !== skill))
+    } else {
+      if (selectedSkills.length >= 4) {
+        setSkillError('You can select a maximum of 4 skills.')
+        return
+      }
+      setSelectedSkills(prev => [...prev, skill])
+    }
+  }
+
+  const handleAddCustomSkill = () => {
+    setSkillError('')
+    const trimmed = customSkillInput.trim()
+    if (!trimmed) return
+    if (selectedSkills.includes(trimmed)) {
+      setCustomSkillInput('')
+      setShowOtherSkill(false)
+      return
+    }
+    if (selectedSkills.length >= 4) {
+      setSkillError('You can select a maximum of 4 skills.')
+      return
+    }
+    setSelectedSkills(prev => [...prev, trimmed])
+    setCustomSkillInput('')
+    setShowOtherSkill(false)
   }
 
   const toggleLookingFor = (skill) => {
-    setLookingFor(prev =>
-      prev.includes(skill)
-        ? prev.filter(s => s !== skill)
-        : [...prev, skill]
-    )
+    setLookingForError('')
+    if (lookingFor.includes(skill)) {
+      setLookingFor(prev => prev.filter(s => s !== skill))
+    } else {
+      if (lookingFor.length >= 4) {
+        setLookingForError('You can select a maximum of 4 skills.')
+        return
+      }
+      setLookingFor(prev => [...prev, skill])
+    }
+  }
+
+  const handleAddCustomLookingFor = () => {
+    setLookingForError('')
+    const trimmed = customLookingForInput.trim()
+    if (!trimmed) return
+    if (lookingFor.includes(trimmed)) {
+      setCustomLookingForInput('')
+      setShowOtherLookingFor(false)
+      return
+    }
+    if (lookingFor.length >= 4) {
+      setLookingForError('You can select a maximum of 4 skills.')
+      return
+    }
+    setLookingFor(prev => [...prev, trimmed])
+    setCustomLookingForInput('')
+    setShowOtherLookingFor(false)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onComplete()
+    if (selectedSkills.length < 2) {
+      setSkillError('Please select at least 2 skills.')
+      return
+    }
+    if (lookingFor.length < 2) {
+      setLookingForError('Please select at least 2 skills.')
+      return
+    }
+    if (selectedSkills.length > 4) {
+      setSkillError('Maximum 4 skills allowed.')
+      return
+    }
+    if (lookingFor.length > 4) {
+      setLookingForError('Maximum 4 skills allowed.')
+      return
+    }
+    if (onComplete) {
+      onComplete({
+        selectedSkills,
+        lookingFor
+      })
+    }
   }
 
   return (
@@ -63,9 +147,10 @@ export default function SetupForm({ onComplete, onBack, selectedAvatar, onAvatar
           <legend>
             Your strongest skills <small>Pick 2–4</small>
           </legend>
+          {skillError && <p className="field-error-msg">{skillError}</p>}
           <div className="choice-grid">
-            {allSkills.slice(0, 9).map(skill => (
-              <button
+            {PREDEFINED_SKILLS.map(skill => (
+              <button 
                 key={skill}
                 type="button"
                 className={selectedSkills.includes(skill) ? 'selected' : ''}
@@ -74,16 +159,66 @@ export default function SetupForm({ onComplete, onBack, selectedAvatar, onAvatar
                 {skill} <span>{selectedSkills.includes(skill) ? '×' : '+'}</span>
               </button>
             ))}
+            {selectedSkills.filter(s => !PREDEFINED_SKILLS.includes(s)).map(skill => (
+              <button 
+                key={skill}
+                type="button" 
+                className="selected"
+                onClick={() => toggleSkill(skill)}
+              >
+                {skill} <span>×</span>
+              </button>
+            ))}
+            <button
+              type="button"
+              className={showOtherSkill ? 'selected' : ''}
+              onClick={() => {
+                setSkillError('')
+                if (!showOtherSkill && selectedSkills.length >= 4) {
+                  setSkillError('You can select a maximum of 4 skills.')
+                  return
+                }
+                setShowOtherSkill(!showOtherSkill)
+              }}
+            >
+              Other <span>{showOtherSkill ? '×' : '+'}</span>
+            </button>
           </div>
+          {showOtherSkill && (
+            <div className="custom-skill-input-wrap">
+              <input 
+                type="text" 
+                className="custom-skill-input"
+                placeholder="Type custom skill (e.g., Python)..."
+                value={customSkillInput}
+                onChange={(e) => setCustomSkillInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    handleAddCustomSkill()
+                  }
+                }}
+                autoFocus
+              />
+              <button 
+                type="button" 
+                className="add-custom-btn"
+                onClick={handleAddCustomSkill}
+              >
+                ADD
+              </button>
+            </div>
+          )}
         </fieldset>
 
         <fieldset>
           <legend>
             I need teammates who know… <small>Pick 2–4</small>
           </legend>
+          {lookingForError && <p className="field-error-msg">{lookingForError}</p>}
           <div className="choice-grid">
-            {allSkills.slice(0, 9).map(skill => (
-              <button
+            {PREDEFINED_SKILLS.map(skill => (
+              <button 
                 key={skill}
                 type="button"
                 className={lookingFor.includes(skill) ? 'selected' : ''}
@@ -92,7 +227,56 @@ export default function SetupForm({ onComplete, onBack, selectedAvatar, onAvatar
                 {skill} <span>{lookingFor.includes(skill) ? '×' : '+'}</span>
               </button>
             ))}
+            {lookingFor.filter(s => !PREDEFINED_SKILLS.includes(s)).map(skill => (
+              <button 
+                key={skill}
+                type="button" 
+                className="selected"
+                onClick={() => toggleLookingFor(skill)}
+              >
+                {skill} <span>×</span>
+              </button>
+            ))}
+            <button
+              type="button"
+              className={showOtherLookingFor ? 'selected' : ''}
+              onClick={() => {
+                setLookingForError('')
+                if (!showOtherLookingFor && lookingFor.length >= 4) {
+                  setLookingForError('You can select a maximum of 4 skills.')
+                  return
+                }
+                setShowOtherLookingFor(!showOtherLookingFor)
+              }}
+            >
+              Other <span>{showOtherLookingFor ? '×' : '+'}</span>
+            </button>
           </div>
+          {showOtherLookingFor && (
+            <div className="custom-skill-input-wrap">
+              <input 
+                type="text" 
+                className="custom-skill-input"
+                placeholder="Type custom skill (e.g., Blockchain)..."
+                value={customLookingForInput}
+                onChange={(e) => setCustomLookingForInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
+                    handleAddCustomLookingFor()
+                  }
+                }}
+                autoFocus
+              />
+              <button 
+                type="button" 
+                className="add-custom-btn"
+                onClick={handleAddCustomLookingFor}
+              >
+                ADD
+              </button>
+            </div>
+          )}
         </fieldset>
 
         <div className="field-row">
@@ -123,3 +307,5 @@ export default function SetupForm({ onComplete, onBack, selectedAvatar, onAvatar
     </section>
   )
 }
+
+

@@ -130,6 +130,57 @@
   font-weight: 400;
 }
 
+.custom-skill-input-wrap {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.custom-skill-input {
+  flex: 1;
+  background: rgba(242, 238, 229, 0.05);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 12px 16px;
+  color: var(--paper);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.custom-skill-input:focus {
+  background: rgba(242, 238, 229, 0.08);
+  box-shadow: 0 0 0 2px rgba(242, 238, 229, 0.1);
+}
+
+.add-custom-btn {
+  background: var(--accent);
+  color: var(--ink);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.add-custom-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+.field-error-msg {
+  color: #ff6b6b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-top: -4px;
+  margin-bottom: 8px;
+}
+
+
 .form-footer {
   display: flex;
   justify-content: space-between;
